@@ -11,6 +11,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
+    "prisma:seed": "dotenv -e .env.dev -- prisma db seed",
+    "db:setup": "node scripts/db-setup.js && dotenv -e .env.dev -- prisma migrate deploy && dotenv -e .env.dev -- prisma db seed",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "dotenv -e .env.dev -- nest start --watch",
@@ -88,5 +90,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

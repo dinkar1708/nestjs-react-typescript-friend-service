@@ -26,7 +26,12 @@ Thumbs.db
 
 # Test
 coverage/
+test-results/
+playwright-report/
+playwright/.cache/
 
 # Prisma
 *.db
 *.db-journal
+
+/outputs

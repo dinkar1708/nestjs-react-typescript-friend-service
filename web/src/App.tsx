@@ -4,9 +4,10 @@ import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Home } from './pages/Home'
 import { BrowseUsers } from './pages/BrowseUsers'
+import { WebRTCDemo } from './pages/WebRTCDemo'
 import './App.css'
 
-type Page = 'splash' | 'login' | 'register' | 'home' | 'browse'
+type Page = 'splash' | 'login' | 'register' | 'home' | 'browse' | 'webrtc'
 
 function App() {
   const [page, setPage] = useState<Page>('splash')
@@ -53,10 +54,15 @@ function App() {
     return <BrowseUsers onBack={() => setPage('home')} />
   }
 
+  if (page === 'webrtc') {
+    return <WebRTCDemo onBack={() => setPage('home')} />
+  }
+
   return (
     <Home
       onLogout={() => setPage('login')}
       onBrowseUsers={() => setPage('browse')}
+      onWebRTCDemo={() => setPage('webrtc')}
     />
   )
 }

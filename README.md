@@ -70,6 +70,28 @@ NestJS + React (Vite) + Flutter (Option #6 from trending architectures below)
 | Send message | Done | — | Planned |
 | View conversation | Done | — | Planned |
 | Real-time (WebSocket) | Done | — | Planned |
+| **Experiments** | | | |
+| WebRTC demo (raw APIs, loopback) | — | Done | Planned |
+
+## WebRTC Demo (learning example)
+
+The web app ships with a small **WebRTC Demo** page under Home →
+*Experiments* → **WebRTC Demo**. It exercises the raw browser WebRTC APIs
+directly — `getUserMedia`, `RTCPeerConnection`, SDP offer/answer, trickle
+ICE — with **no third-party SDK** (no Agora, Twilio, Daily, LiveKit) and
+**no signaling server**: two `RTCPeerConnection`s run in the same browser
+tab and negotiate directly, so the entire handshake is visible and
+testable in one page.
+
+- Live signaling log on the page shows SDP line counts, ICE candidate
+  types, and `pc.connectionState` transitions in real time.
+- Playwright test suite (`web/e2e/webrtc-demo.spec.ts`) asserts that
+  media actually flowed (`readyState === 4` on the remote `<video>`),
+  not just that the SDP handshake completed.
+
+Full details, verified terminal + browser output, and a line-by-line
+"what each log line proves" table:
+[**backend-api/docs/WEBRTC_DEMO.md**](./backend-api/docs/WEBRTC_DEMO.md)
 
 ## Why This Stack?
 

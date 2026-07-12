@@ -7,18 +7,20 @@ interface LoginProps {
   onGoRegister: () => void
 }
 
+const DEMO_EMAIL = import.meta.env.VITE_DEMO_EMAIL ?? 'demo@nestconnect.dev'
+const DEMO_PASSWORD = import.meta.env.VITE_DEMO_PASSWORD ?? 'demopass123'
+
 export function Login({ onSuccess, onGoRegister }: LoginProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+  async function login(emailArg: string, passwordArg: string) {
     setError('')
     setLoading(true)
     try {
-      const res = await signIn(email, password)
+      const res = await signIn(emailArg, passwordArg)
       setAuth(res)
       onSuccess()
     } catch (err) {
@@ -26,6 +28,17 @@ export function Login({ onSuccess, onGoRegister }: LoginProps) {
     } finally {
       setLoading(false)
     }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    await login(email, password)
+  }
+
+  async function handleDemoLogin() {
+    setEmail(DEMO_EMAIL)
+    setPassword(DEMO_PASSWORD)
+    await login(DEMO_EMAIL, DEMO_PASSWORD)
   }
 
   return (
@@ -66,6 +79,18 @@ export function Login({ onSuccess, onGoRegister }: LoginProps) {
           <button type="submit" className="auth-submit" disabled={loading}>
             {loading ? 'Signing in…' : 'Log in'}
           </button>
+
+          {import.meta.env.DEV && (
+            <button
+              type="button"
+              className="auth-demo"
+              onClick={handleDemoLogin}
+              disabled={loading}
+              title={`${DEMO_EMAIL} / ${DEMO_PASSWORD}`}
+            >
+              Fill demo login (dev)
+            </button>
+          )}
         </form>
 
         <p className="auth-switch">

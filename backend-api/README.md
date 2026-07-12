@@ -19,11 +19,31 @@ NestJS API – auth, users, friends, real-time chat. Port 4000.
 | Real-time | Socket.IO (@nestjs/platform-socket.io) |
 | Testing | Jest, Supertest |
 
-**Start**
+**Start (fresh clone — one-shot setup)**
 ```bash
 npm install
-npx prisma migrate dev
+npm run db:setup   # creates DB if missing, migrates, seeds demo user
 npm run start:dev
+```
+
+The seed creates a demo login you can use immediately from the web UI:
+
+- **Email:** `demo@nestconnect.dev`
+- **Password:** `demopass123`
+
+(In dev the web login page shows a **Fill demo login (dev)** button that
+uses these credentials — no typing needed.)
+
+Override the seeded credentials by setting `SEED_DEMO_EMAIL` /
+`SEED_DEMO_PASSWORD` / `SEED_DEMO_NAME` in the environment before running
+`npm run db:setup`.
+
+Individual steps if you prefer to run them manually:
+
+```bash
+node scripts/db-setup.js               # create the database if missing
+npx dotenv -e .env.dev -- prisma migrate deploy
+npm run prisma:seed
 ```
 
 **Stop & Restart**

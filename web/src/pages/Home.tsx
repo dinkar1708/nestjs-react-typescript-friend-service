@@ -7,9 +7,10 @@ import './Home.css'
 interface HomeProps {
   onLogout: () => void
   onBrowseUsers?: () => void
+  onWebRTCDemo?: () => void
 }
 
-export function Home({ onLogout, onBrowseUsers }: HomeProps) {
+export function Home({ onLogout, onBrowseUsers, onWebRTCDemo }: HomeProps) {
   const user = getStoredUser()
   const [friends, setFriends] = useState<User[]>([])
   const [requests, setRequests] = useState<FriendRequest[]>([])
@@ -93,6 +94,15 @@ export function Home({ onLogout, onBrowseUsers }: HomeProps) {
             <h2>Find people</h2>
             <button className="home-action" onClick={onBrowseUsers}>
               Browse users
+            </button>
+          </section>
+        )}
+
+        {onWebRTCDemo && (
+          <section className="home-section">
+            <h2>Experiments</h2>
+            <button className="home-action" onClick={onWebRTCDemo}>
+              WebRTC Demo
             </button>
           </section>
         )}
