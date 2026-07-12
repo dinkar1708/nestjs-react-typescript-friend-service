@@ -34,6 +34,13 @@ NestJS + React (Vite) + Flutter (Option #6 from trending architectures below)
 - **SEO:** N/A (Mobile apps don't use traditional SEO)
   - *For discoverability:* Focus on App Store Optimization (ASO) - keywords, screenshots, reviews
 
+# DEMO
+
+<img width="1330" height="887" alt="Screenshot 2026-07-12 at 15 29 11" src="https://github.com/user-attachments/assets/d23268e1-5b53-452e-ae91-91925bfc9b20" />
+<img width="1196" height="1008" alt="Screenshot 2026-07-12 at 15 28 58" src="https://github.com/user-attachments/assets/3d30be0f-d419-4b8a-b4dc-24bf19aa7496" />
+<img width="973" height="710" alt="Screenshot 2026-07-12 at 15 29 20" src="https://github.com/user-attachments/assets/0229e438-919e-4f01-8514-eac13ee832e2" />
+
+
 ## Project Structure
 
 | Folder | Description |
