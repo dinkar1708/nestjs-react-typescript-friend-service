@@ -59,84 +59,63 @@ NestJS + React (Vite) + Flutter (Option #6 from trending architectures below)
 
 **Backend tests:** `cd backend-api && npm test && npm run test:e2e` — 2 unit + 15 e2e (auth, users, friends, chat)
 
-## Features / Roadmap
+## Features
 
-| Feature | Backend | Web | Mobile |
-|---------|---------|-----|--------|
-| **Auth** | | | |
-| Sign up | Done | Done | Planned |
-| Sign in | Done | Done | Planned |
-| Refresh token | Done | — | Planned |
-| **Users** | | | |
-| Browse users | Done | — | Planned |
-| User profile | Done | — | Planned |
-| **Friends** | | | |
-| Send friend request | Done | — | Planned |
-| Accept / reject request | Done | — | Planned |
-| Friend list | Done | — | Planned |
-| Remove friend | Done | — | Planned |
-| **Chat** | | | |
-| Send message | Done | — | Planned |
-| View conversation | Done | — | Planned |
-| Real-time (WebSocket) | Done | — | Planned |
-| **Experiments** | | | |
-| WebRTC demo (raw APIs, loopback) | — | Done | Planned |
+| Feature | Status | Documentation |
+|---------|--------|---------------|
+| **Authentication** | Backend + Web | [docs/features/authentication.md](docs/features/authentication.md) |
+| **Users** | Backend only | [docs/features/users.md](docs/features/users.md) |
+| **Friends** | Backend only | [docs/features/friends.md](docs/features/friends.md) |
+| **Chat** | Backend only | [docs/features/chat.md](docs/features/chat.md) |
+| **WebRTC Demo** | Web only | [docs/features/webrtc-demo.md](docs/features/webrtc-demo.md) |
 
-## WebRTC Demo (learning example)
+Full feature documentation: [docs/features/README.md](docs/features/README.md)
 
-The web app ships with a small **WebRTC Demo** page under Home →
-*Experiments* → **WebRTC Demo**. It exercises the raw browser WebRTC APIs
-directly — `getUserMedia`, `RTCPeerConnection`, SDP offer/answer, trickle
-ICE — with **no third-party SDK** (no Agora, Twilio, Daily, LiveKit) and
-**no signaling server**: two `RTCPeerConnection`s run in the same browser
-tab and negotiate directly, so the entire handshake is visible and
-testable in one page.
+## Documentation
 
-- Live signaling log on the page shows SDP line counts, ICE candidate
-  types, and `pc.connectionState` transitions in real time.
-- Playwright test suite (`web/e2e/webrtc-demo.spec.ts`) asserts that
-  media actually flowed (`readyState === 4` on the remote `<video>`),
-  not just that the SDP handshake completed.
-
-Full details, verified terminal + browser output, and a line-by-line
-"what each log line proves" table:
-[**docs/WEBRTC_DEMO.md**](./docs/WEBRTC_DEMO.md)
+| Category | Documentation |
+|----------|---------------|
+| **Getting Started** | [Backend Setup](docs/getting-started/backend.md) |
+| **Features** | [All Features](docs/features/README.md) |
+| **Architecture** | [System Architecture](docs/core/architecture/ARCHITECTURE.md) |
+| **API** | [API Documentation](docs/core/architecture/API.md) |
+| **Database** | [Database Schema](docs/core/architecture/DATABASE_SCHEMA.md) |
+| **Security** | [Security & Best Practices](docs/core/security/README.md) |
+| **WebRTC Demo** | [WebRTC Implementation](docs/WEBRTC_DEMO.md) |
+| **References** | [Additional Resources](docs/REFERENCES.md) |
 
 ## Why This Stack?
 
-**NestJS + React (Vite) + Flutter**
+**NestJS + React (Vite) + Flutter** - Option #6 from trending architectures
 
-We chose this combination for our social networking and chat app:
-
-**What we're using:**
-* **Backend:** NestJS (TypeScript) - Enterprise-grade, native WebSocket support
-* **Web:** React with Vite (TypeScript) - Fast SPA development
-* **Mobile:** Flutter (Dart) - High-performance cross-platform
-* **Database:** PostgreSQL with Prisma ORM - Relational data with type safety
-
-**Why this combination:**
-* Scalable enterprise-grade backend (NestJS)
-* Native WebSocket support for real-time chat (critical for our use case)
-* Fast, flexible React SPA with Vite (simpler than Next.js for non-SEO apps)
-* High-performance mobile with Flutter
-* Clear separation of concerns
-* Type-safe architecture (TypeScript + Dart)
-
-**Trade-off:**
-* No SSR/SEO on web, but this is acceptable because our app is a private social network (like Slack/Discord) where content is behind authentication and doesn't need Google indexing
-
-**Best suited for:**
+**Perfect for:**
 * Real-time chat applications (Slack, Discord-like)
 * Social networking platforms (Instagram, Twitter-like)
 * Live collaboration tools
 * Any app where real-time features > SEO
 
+**Key strengths:**
+* Enterprise-grade backend with native WebSocket support
+* Fast SPA development with Vite (no SSR needed for authenticated apps)
+* High-performance cross-platform mobile with Flutter
+* Full type safety (TypeScript + Dart)
+
+**See full comparison of 7 trending architectures in the appendix below.**
+
 ---
+
+## Contributing
+
+See improvement suggestions and best practices compliance in:
+- [outputs/improvement-plan.md](outputs/improvement-plan.md) - Comprehensive improvement roadmap
+- [docs/BEST_PRACTICES_COMPLIANCE.md](docs/BEST_PRACTICES_COMPLIANCE.md) - Current compliance status
+
 ---
 
 # Appendix: Trending Full-Stack Architectures (2026)
 
-Comparison of modern full-stack architectures to help choose the right stack for your project.
+<details>
+<summary>Click to expand - Comparison of 7 modern full-stack architectures</summary>
 
 ## 1. NestJS + Next.js + Flutter
 
@@ -377,5 +356,7 @@ Comparison of modern full-stack architectures to help choose the right stack for
 1. **NestJS + Next.js + Flutter**
 2. **NestJS + React + React Native**
 3. **FastAPI + React + Flutter**
+
+</details>
 
 ---
