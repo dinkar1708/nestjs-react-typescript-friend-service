@@ -51,9 +51,11 @@ NestJS + React (Vite) + Flutter (Option #6 from trending architectures below)
 
 ## Quick Start
 
-**Backend API:** See `backend-api/README.md`
+**Backend API:** See [docs/getting-started/backend.md](docs/getting-started/backend.md)
 
-**Web UI:** Run `npm run dev` in `web/`, then open [http://localhost:5173](http://localhost:5173)
+**Web UI:** See [docs/interfaces/web/README.md](docs/interfaces/web/README.md)
+
+**Mobile:** See [docs/interfaces/mobile/README.md](docs/interfaces/mobile/README.md)
 
 **Backend tests:** `cd backend-api && npm test && npm run test:e2e` — 2 unit + 15 e2e (auth, users, friends, chat)
 
@@ -98,7 +100,7 @@ testable in one page.
 
 Full details, verified terminal + browser output, and a line-by-line
 "what each log line proves" table:
-[**backend-api/docs/WEBRTC_DEMO.md**](./backend-api/docs/WEBRTC_DEMO.md)
+[**docs/WEBRTC_DEMO.md**](./docs/WEBRTC_DEMO.md)
 
 ## Why This Stack?
 
