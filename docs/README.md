@@ -46,8 +46,10 @@ docs/
 - [core/architecture/API.md](core/architecture/API.md) - REST API specification
 
 **Security:**
-- [core/security/README.md](core/security/README.md) - Security overview
+- [core/security/README.md](core/security/README.md) - Security overview (updated 2026-07-29)
 - [core/security/AUTHENTICATION.md](core/security/AUTHENTICATION.md) - JWT auth flow
+
+**Development:**
 - [core/security/BEST_PRACTICES.md](core/security/BEST_PRACTICES.md) - Security checklist
 
 **Deployment:**

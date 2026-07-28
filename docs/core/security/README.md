@@ -21,7 +21,9 @@ NestConnect implements multiple layers of security to protect user data, prevent
 
 **Current Security Status:** PRODUCTION READY
 
-**Security Score:** 95/100
+**Security Score:** 90/100
+
+**Last Updated:** 2026-07-29
 
 ---
 
@@ -46,19 +48,23 @@ NestConnect implements multiple layers of security to protect user data, prevent
 | **Authorization** | IMPLEMENTED | Global JWT guard with opt-out |
 | **Input Validation** | IMPLEMENTED | class-validator + ValidationPipe |
 | **SQL Injection Prevention** | IMPLEMENTED | Prisma ORM (parameterized queries) |
-| **CORS** | IMPLEMENTED | Configurable origins |
+| **CORS** | IMPLEMENTED | Configurable origins (HTTP + WebSocket) |
+| **Rate Limiting** | IMPLEMENTED | Global + endpoint-specific limits |
+| **Security Headers** | IMPLEMENTED | Helmet middleware |
+| **Environment Validation** | IMPLEMENTED | Joi schema validation at startup |
 | **Error Handling** | IMPLEMENTED | No stack traces in production |
 | **Database Security** | IMPLEMENTED | Cascade deletes, foreign keys |
 | **Environment Security** | IMPLEMENTED | .env files in .gitignore |
 | **WebSocket Auth** | IMPLEMENTED | JWT token verification |
+| **Error Boundary (Web)** | IMPLEMENTED | React error catching |
 
 ### Missing/Planned Features
 
 | Feature | Priority | Status |
 |---------|----------|--------|
-| Rate Limiting | HIGH | Planned (use @nestjs/throttler) |
-| Helmet Security Headers | HIGH | Planned |
 | Refresh Token Rotation | MEDIUM | Planned |
+| Structured Logging | MEDIUM | Planned (Winston/Pino) |
+| Health Checks | MEDIUM | Planned (@nestjs/terminus) |
 | API Key Management | MEDIUM | Planned |
 | Audit Logging | MEDIUM | Planned |
 | MFA | LOW | Future |
@@ -71,17 +77,67 @@ NestConnect implements multiple layers of security to protect user data, prevent
 
 **CORS (Cross-Origin Resource Sharing):**
 ```typescript
-// main.ts
+// main.ts - HTTP
+const allowedOrigins =
+  process.env.NODE_ENV === 'production'
+    ? process.env.ALLOWED_ORIGINS?.split(',') || []
+    : ['http://localhost:5173', 'http://localhost:3000'];
+
 app.enableCors({
-  origin: process.env.CORS_ORIGINS?.split(',') || '*',
-  credentials: true
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 });
+
+// chat.gateway.ts - WebSocket
+@WebSocketGateway({
+  cors: {
+    origin: allowedOrigins,
+    credentials: true,
+  },
+  namespace: '/chat',
+})
 ```
 
 **Production Configuration:**
 ```bash
 # .env.prod
-CORS_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
+ALLOWED_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
+```
+
+**Security Headers (Helmet):**
+```typescript
+// main.ts
+import helmet from 'helmet';
+app.use(helmet());
+```
+
+**Rate Limiting:**
+```typescript
+// app.module.ts - Global
+ThrottlerModule.forRoot([{
+  ttl: 60000, // 1 minute
+  limit: 100, // 100 requests per minute
+}])
+
+// auth.controller.ts - Endpoint-specific
+@Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 login attempts/min
+@Throttle({ default: { limit: 5, ttl: 60000 } })  // 5 signups/min
+```
+
+**Environment Validation:**
+```typescript
+// config/env.validation.ts
+export const envValidationSchema = Joi.object({
+  NODE_ENV: Joi.string().valid('development', 'production', 'test'),
+  DATABASE_URL: Joi.string().required(),
+  JWT_SECRET: Joi.string().min(32).required(),
+  ALLOWED_ORIGINS: Joi.string().when('NODE_ENV', {
+    is: 'production',
+    then: Joi.required(),
+  }),
+});
 ```
 
 **HTTPS:**
@@ -261,13 +317,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
 - [x] Verify .env.prod not in git
 - [x] Configure CORS for production domain
-- [ ] Add rate limiting (ThrottlerModule)
-- [ ] Add Helmet security headers
+- [x] Add rate limiting (ThrottlerModule)
+- [x] Add Helmet security headers
+- [x] Add environment validation
 - [ ] Configure HTTPS
 - [ ] Set up secrets management (vault)
-- [ ] Review all endpoints for authorization
-- [ ] Test authentication flow
-- [ ] Test validation rules
+- [x] Review all endpoints for authorization
+- [x] Test authentication flow
+- [x] Test validation rules
 - [ ] Security audit
 
 ### Production
@@ -402,16 +459,15 @@ export class SendMessageDto {
 
 ### Scenario 4: Brute force login attempts
 
-**Current:** No protection (rate limiting planned)
-
-**Planned Protection:**
+**Protection (Implemented):**
 ```typescript
 import { Throttle } from '@nestjs/throttler';
 
-@Throttle(5, 60)  // 5 attempts per minute
+@Throttle({ default: { limit: 10, ttl: 60000 } })
 @Post('signin')
 signIn(@Body() dto: SignInDto) {
-  // ...
+  // Max 10 login attempts per minute
+  // Returns 429 (Too Many Requests) if exceeded
 }
 ```
 
@@ -457,10 +513,18 @@ signIn(@Body() dto: SignInDto) {
 
 ## Security Roadmap
 
+### Recently Completed (2026-07-29)
+
+- [x] Implement rate limiting (@nestjs/throttler)
+- [x] Add Helmet security headers
+- [x] Configure CORS properly (HTTP + WebSocket)
+- [x] Add environment variable validation
+- [x] Add Error Boundary (React frontend)
+
 ### Short Term (Next Sprint)
 
-- [ ] Implement rate limiting (@nestjs/throttler)
-- [ ] Add Helmet security headers
+- [ ] Add structured logging (Winston/Pino)
+- [ ] Implement health checks (@nestjs/terminus)
 - [ ] Configure CSP (Content Security Policy)
 - [ ] Set up secrets rotation
 
@@ -480,5 +544,5 @@ signIn(@Body() dto: SignInDto) {
 
 ---
 
-**Last Updated:** 2026-07-28
-**Security Version:** 1.0
+**Last Updated:** 2026-07-29
+**Security Version:** 1.1

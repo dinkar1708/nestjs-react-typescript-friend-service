@@ -5,11 +5,12 @@ import { Register } from './pages/Register'
 import { Home } from './pages/Home'
 import { BrowseUsers } from './pages/BrowseUsers'
 import { WebRTCDemo } from './pages/WebRTCDemo'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import './App.css'
 
 type Page = 'splash' | 'login' | 'register' | 'home' | 'browse' | 'webrtc'
 
-function App() {
+function AppContent() {
   const [page, setPage] = useState<Page>('splash')
 
   useEffect(() => {
@@ -64,6 +65,14 @@ function App() {
       onBrowseUsers={() => setPage('browse')}
       onWebRTCDemo={() => setPage('webrtc')}
     />
+  )
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
   )
 }
 

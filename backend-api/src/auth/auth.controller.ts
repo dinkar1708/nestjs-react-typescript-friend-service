@@ -1,5 +1,6 @@
 import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiOkResponse, ApiCreatedResponse, ApiResponse } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
@@ -16,6 +17,7 @@ export class AuthController {
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
+  @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 signups per minute
   @ApiOperation({ summary: 'Register a new user' })
   @ApiCreatedResponse({ description: 'User registered', type: AuthResponseDto })
   @ApiResponse({ status: 400, description: 'Validation error', type: ErrorResponseDto })
@@ -26,6 +28,7 @@ export class AuthController {
 
   @Public()
   @Post('signin')
+  @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 login attempts per minute
   @ApiOperation({ summary: 'Login with email and password' })
   @ApiOkResponse({ description: 'Login successful', type: AuthResponseDto })
   @ApiResponse({ status: 401, description: 'Invalid credentials', type: ErrorResponseDto })
