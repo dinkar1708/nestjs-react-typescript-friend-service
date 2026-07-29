@@ -4,13 +4,21 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { WinstonModule } from 'nest-winston';
+import { loggerConfig } from './config/logger.config';
 import helmet from 'helmet';
+import compression from 'compression';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: WinstonModule.createLogger(loggerConfig),
+  });
 
   // Security: Add Helmet for security headers
   app.use(helmet());
+
+  // Performance: Add response compression
+  app.use(compression());
 
   app.setGlobalPrefix('api/v1', { exclude: ['', 'health'] });
   app.useGlobalPipes(

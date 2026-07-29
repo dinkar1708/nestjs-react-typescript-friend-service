@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { signUp, setAuth } from '../lib/auth'
+import { signUp, setAuth } from '../../../lib/auth'
 import './Auth.css'
 
 interface RegisterProps {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { signIn, setAuth } from '../lib/auth'
+import { signIn, setAuth } from '../../../lib/auth'
 import './Auth.css'
 
 interface LoginProps {

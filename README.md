@@ -107,7 +107,6 @@ Full feature documentation: [docs/features/README.md](docs/features/README.md)
 ## Contributing
 
 See improvement suggestions and best practices compliance in:
-- [outputs/improvement-plan.md](outputs/improvement-plan.md) - Comprehensive improvement roadmap
 - [docs/BEST_PRACTICES_COMPLIANCE.md](docs/BEST_PRACTICES_COMPLIANCE.md) - Current compliance status
 
 ---

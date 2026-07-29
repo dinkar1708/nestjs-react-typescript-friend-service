@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { getStoredUser, clearAuth } from '../lib/auth'
-import { getFriends, getPendingReceived, acceptRequest, rejectRequest } from '../lib/friends'
-import type { User, FriendRequest } from '../lib/friends'
+import { getStoredUser, clearAuth } from '../../../lib/auth'
+import { getFriends, getPendingReceived, acceptRequest, rejectRequest } from '../../../lib/friends'
+import type { User, FriendRequest } from '../../../lib/friends'
 import './Home.css'
 
 interface HomeProps {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { getUsers } from '../lib/users'
-import { sendFriendRequest } from '../lib/friends'
-import type { User } from '../lib/users'
+import { getUsers } from '../../../lib/users'
+import { sendFriendRequest } from '../../../lib/friends'
+import type { User } from '../../../lib/users'
 import './BrowseUsers.css'
 
 interface BrowseUsersProps {
