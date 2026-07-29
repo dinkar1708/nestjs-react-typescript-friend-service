@@ -48,6 +48,8 @@ model FriendRequest {
   @@index([senderId])
   @@index([receiverId])
   @@index([status])
+  @@index([receiverId, status])
+  @@index([senderId, status])
   @@map("friend_requests")
 }
 
@@ -79,5 +81,7 @@ model Message {
   @@index([senderId])
   @@index([receiverId])
   @@index([createdAt])
+  @@index([senderId, receiverId, createdAt])
+  @@index([receiverId, senderId, createdAt])
   @@map("messages")
 }
